@@ -1,5 +1,4 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import Head from "next/head";
 import MapBox from "../components/MapBox";
 import styles from "../styles/Home.module.css";
 

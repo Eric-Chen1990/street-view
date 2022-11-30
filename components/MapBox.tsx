@@ -53,7 +53,7 @@ const MapBox = (props: Props) => {
 					/>
 				</Marker>
 			)),
-		[]
+		[geojson]
 	);
 
 	return (
@@ -86,7 +86,7 @@ const MapBox = (props: Props) => {
 				>
 					<div>{popupInfo.title}</div>
 					<div style={{ marginTop: 10, padding: 10 }}>
-						<img width="100%" src={popupInfo.image} />
+						<img width="100%" src={popupInfo.image} alt={popupInfo.title} />
 					</div>
 				</Popup>
 			)}
