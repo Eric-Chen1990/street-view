@@ -26,6 +26,7 @@ const MapBox = (props: Props) => {
 	];
 
 	const [popupInfo, setPopupInfo] = useState<pointType | null>(null);
+	const [active, setActive] = useState<number | null>(null);
 
 	const pins = useMemo(
 		() =>
@@ -44,16 +45,17 @@ const MapBox = (props: Props) => {
 				>
 					<div
 						style={{
-							width: 20,
-							height: 20,
-							backgroundColor: "red",
-							border: "2px solid #ffffff",
+							width: 16,
+							height: 16,
+							backgroundColor: active === index ? "red" : "green",
+							border: "3px solid #ffffff",
 							borderRadius: "50%",
 						}}
+						onClick={() => setActive(index)}
 					/>
 				</Marker>
 			)),
-		[geojson]
+		[geojson, active]
 	);
 
 	return (
