@@ -7,6 +7,7 @@ import Map, {
 	ScaleControl,
 	GeolocateControl,
 } from "react-map-gl";
+import GeocoderControl from "./GeocoderControl";
 
 type Props = {};
 
@@ -69,6 +70,11 @@ const MapBox = (props: Props) => {
 			<GeolocateControl position="top-left" />
 			<FullscreenControl position="top-left" />
 			<NavigationControl position="top-left" />
+			<GeocoderControl
+				mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string}
+				position="top-right"
+			/>
+
 			<ScaleControl />
 			{pins}
 			{popupInfo && (
