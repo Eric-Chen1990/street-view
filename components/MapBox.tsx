@@ -8,7 +8,7 @@ import Map, {
 	GeolocateControl,
 } from "react-map-gl";
 import GeocoderControl from "./GeocoderControl";
-
+import { loadPano } from "./Panos";
 type Props = {};
 
 const MapBox = (props: Props) => {
@@ -16,26 +16,31 @@ const MapBox = (props: Props) => {
 		latitude: number;
 		longitude: number;
 		title?: string;
-		image?: string;
+		id: number;
 	};
 	const geojson: pointType[] = [
-		{ longitude: -122.4, latitude: 37.8, image: "./vercel.svg" },
-		{ longitude: -122.0, latitude: 37.8, image: "./vercel.svg" },
-		{ longitude: -122.4, latitude: 37.5, image: "./vercel.svg" },
-		{ longitude: -122.4, latitude: 37.1, image: "./vercel.svg" },
+		{ longitude: -122.4, latitude: 37.8, id: 1 },
+		{ longitude: -122.0, latitude: 37.8, id: 2 },
+		{ longitude: -122.4, latitude: 37.5, id: 3 },
+		{ longitude: -122.4, latitude: 37.1, id: 4 },
 	];
 
 	const [popupInfo, setPopupInfo] = useState<pointType | null>(null);
 	const [active, setActive] = useState<number | null>(null);
 
+	const changePano = (id: number) => {
+		setActive(id);
+		loadPano(id);
+	};
+
 	const pins = useMemo(
 		() =>
-			geojson.map((point, index) => (
+			geojson.map((point) => (
 				<Marker
-					key={`marker-${index}`}
+					key={`marker-${point.id}`}
 					longitude={point.longitude}
 					latitude={point.latitude}
-					anchor="bottom"
+					anchor="center"
 					onClick={(e) => {
 						// If we let the click event propagates to the map, it will immediately close the popup
 						// with `closeOnClick: true`
@@ -47,11 +52,11 @@ const MapBox = (props: Props) => {
 						style={{
 							width: 16,
 							height: 16,
-							backgroundColor: active === index ? "red" : "green",
+							backgroundColor: active === point.id ? "red" : "green",
 							border: "3px solid #ffffff",
 							borderRadius: "50%",
 						}}
-						onClick={() => setActive(index)}
+						onClick={() => changePano(point.id)}
 					/>
 				</Marker>
 			)),
@@ -60,12 +65,16 @@ const MapBox = (props: Props) => {
 
 	return (
 		<Map
-			style={{ width: "100vw", height: "100vh", margin: 0, padding: 0 }}
+			style={{
+				height: "100%",
+				width: "100%",
+			}}
+			id="mapBox"
 			mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
 			initialViewState={{
-				longitude: -100,
-				latitude: 40,
-				zoom: 3.5,
+				longitude: -122.4,
+				latitude: 37.8,
+				zoom: 5.5,
 			}}
 			mapStyle="mapbox://styles/mapbox/streets-v11"
 		>
@@ -81,14 +90,18 @@ const MapBox = (props: Props) => {
 			{pins}
 			{popupInfo && (
 				<Popup
-					anchor="top"
+					anchor="bottom"
 					longitude={Number(popupInfo.longitude)}
 					latitude={Number(popupInfo.latitude)}
 					onClose={() => setPopupInfo(null)}
 				>
 					<div>{popupInfo.title}</div>
-					<div style={{ marginTop: 10, padding: 10 }}>
-						<img width="100%" src={popupInfo.image} alt={popupInfo.title} />
+					<div style={{ marginTop: 10, padding: "0 5" }}>
+						<img
+							width="120"
+							src={`panos/pano${popupInfo.id}.tiles/thumb.jpg`}
+							alt={popupInfo.title}
+						/>
 					</div>
 				</Popup>
 			)}
