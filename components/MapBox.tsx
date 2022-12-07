@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState, useMemo } from "react";
 import Map, {
 	Marker,
@@ -97,10 +98,12 @@ const MapBox = (props: Props) => {
 				>
 					<div>{popupInfo.title}</div>
 					<div style={{ marginTop: 10, padding: "0 5" }}>
-						<img
-							width="120"
-							src={`panos/pano${popupInfo.id}.tiles/thumb.jpg`}
-							alt={popupInfo.title}
+						<Image
+							width={120}
+							height={120}
+							quality={8}
+							src={`/panos/pano${popupInfo.id}.tiles/thumb.jpg`}
+							alt={popupInfo.title || ""}
 						/>
 					</div>
 				</Popup>
