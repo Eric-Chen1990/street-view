@@ -33,7 +33,7 @@ export default function Home() {
 					<div id="pano" className={!mainPano ? styles.area : styles.full}>
 						<Panos />
 					</div>
-					{/* <Switcher /> */}
+					<Switcher />
 				</main>
 			</div>
 		</MapProvider>
