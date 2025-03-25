@@ -1,6 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
-import { useControl, Marker, MarkerProps, ControlPosition } from "react-map-gl";
+import {
+	useControl,
+	Marker,
+	MarkerProps,
+	ControlPosition,
+} from "react-map-gl/mapbox";
 import MapboxGeocoder, { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
 
 type GeocoderControlProps = Omit<
@@ -22,16 +27,16 @@ type GeocoderControlProps = Omit<
 export default function GeocoderControl(props: GeocoderControlProps) {
 	const [marker, setMarker] = useState<any>(null);
 
-	const geocoder = useControl<MapboxGeocoder>(
+	const geocoder = useControl(
 		() => {
 			const ctrl = new MapboxGeocoder({
 				...props,
 				marker: false,
 				accessToken: props.mapboxAccessToken,
-			});
+			}) as any;
 			ctrl.on("loading", props.onLoading);
 			ctrl.on("results", props.onResults);
-			ctrl.on("result", (evt) => {
+			ctrl.on("result", (evt: { result: any }) => {
 				props.onResult(evt);
 
 				const { result } = evt;

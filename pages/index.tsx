@@ -4,7 +4,7 @@ import styles from "../styles/Home.module.css";
 import { Panos } from "../components/Panos";
 import Switcher from "../components/Switcher";
 import { useAppStore } from "../stores";
-import { MapProvider } from "react-map-gl";
+import { MapProvider } from "react-map-gl/mapbox";
 
 export default function Home() {
     const mainPano = useAppStore((state) => state.mainPano);

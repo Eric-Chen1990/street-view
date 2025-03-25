@@ -7,7 +7,7 @@ import Map, {
 	FullscreenControl,
 	ScaleControl,
 	GeolocateControl,
-} from "react-map-gl";
+} from "react-map-gl/mapbox";
 import GeocoderControl from "./GeocoderControl";
 import { loadPano } from "./Panos";
 type Props = {};
@@ -19,12 +19,15 @@ const MapBox = (props: Props) => {
 		title?: string;
 		id: number;
 	};
-	const geojson: pointType[] = [
-		{ longitude: -122.4, latitude: 37.8, id: 1 },
-		{ longitude: -122.0, latitude: 37.8, id: 2 },
-		{ longitude: -122.4, latitude: 37.5, id: 3 },
-		{ longitude: -122.4, latitude: 37.1, id: 4 },
-	];
+	const geojson = useMemo<pointType[]>(
+		() => [
+			{ longitude: -122.4, latitude: 37.8, id: 1 },
+			{ longitude: -122.0, latitude: 37.8, id: 2 },
+			{ longitude: -122.4, latitude: 37.5, id: 3 },
+			{ longitude: -122.4, latitude: 37.1, id: 4 },
+		],
+		[]
+	);
 
 	const [popupInfo, setPopupInfo] = useState<pointType | null>(null);
 	const [active, setActive] = useState<number | null>(null);
