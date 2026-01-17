@@ -1,4 +1,4 @@
-import * as React from "react";
+"use client";
 import { useState } from "react";
 import {
 	useControl,
@@ -8,24 +8,33 @@ import {
 } from "react-map-gl/mapbox";
 import MapboxGeocoder, { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
 
+const noop = () => {};
+
 type GeocoderControlProps = Omit<
 	GeocoderOptions,
 	"accessToken" | "mapboxgl" | "marker"
 > & {
 	mapboxAccessToken: string;
-	marker?: Omit<MarkerProps, "longitude" | "latitude">;
+	marker?: false | Omit<MarkerProps, "longitude" | "latitude">;
 
 	position: ControlPosition;
 
-	onLoading: (e: object) => void;
-	onResults: (e: object) => void;
-	onResult: (e: object) => void;
-	onError: (e: object) => void;
+	onLoading?: (e: object) => void;
+	onResults?: (e: object) => void;
+	onResult?: (e: object) => void;
+	onError?: (e: object) => void;
 };
 
 /* eslint-disable complexity,max-statements */
 export default function GeocoderControl(props: GeocoderControlProps) {
 	const [marker, setMarker] = useState<any>(null);
+	const onLoading = props.onLoading ?? noop;
+	const onResults = props.onResults ?? noop;
+	const onResult = props.onResult ?? noop;
+	const onError = props.onError ?? noop;
+	const showMarker = props.marker !== false;
+	const markerProps: Omit<MarkerProps, "longitude" | "latitude"> =
+		props.marker && typeof props.marker === "object" ? props.marker : {};
 
 	const geocoder = useControl(
 		() => {
@@ -34,20 +43,20 @@ export default function GeocoderControl(props: GeocoderControlProps) {
 				marker: false,
 				accessToken: props.mapboxAccessToken,
 			}) as any;
-			ctrl.on("loading", props.onLoading);
-			ctrl.on("results", props.onResults);
+			ctrl.on("loading", onLoading);
+			ctrl.on("results", onResults);
 			ctrl.on("result", (evt: { result: any }) => {
-				props.onResult(evt);
+				onResult(evt);
 
 				const { result } = evt;
 				const location =
 					result &&
 					(result.center ||
 						(result.geometry?.type === "Point" && result.geometry.coordinates));
-				if (location && props.marker) {
+				if (location && showMarker) {
 					setMarker(
 						<Marker
-							{...props.marker}
+							{...markerProps}
 							longitude={location[0]}
 							latitude={location[1]}
 						/>
@@ -56,7 +65,7 @@ export default function GeocoderControl(props: GeocoderControlProps) {
 					setMarker(null);
 				}
 			});
-			ctrl.on("error", props.onError);
+			ctrl.on("error", onError);
 			return ctrl;
 		},
 		{
@@ -120,29 +129,6 @@ export default function GeocoderControl(props: GeocoderControlProps) {
 		if (geocoder.getOrigin() !== props.origin && props.origin !== undefined) {
 			geocoder.setOrigin(props.origin);
 		}
-		// Types missing from @types/mapbox__mapbox-gl-geocoder
-		// if (geocoder.getAutocomplete() !== props.autocomplete && props.autocomplete !== undefined) {
-		//   geocoder.setAutocomplete(props.autocomplete);
-		// }
-		// if (geocoder.getFuzzyMatch() !== props.fuzzyMatch && props.fuzzyMatch !== undefined) {
-		//   geocoder.setFuzzyMatch(props.fuzzyMatch);
-		// }
-		// if (geocoder.getRouting() !== props.routing && props.routing !== undefined) {
-		//   geocoder.setRouting(props.routing);
-		// }
-		// if (geocoder.getWorldview() !== props.worldview && props.worldview !== undefined) {
-		//   geocoder.setWorldview(props.worldview);
-		// }
 	}
 	return marker;
 }
-
-const noop = () => {};
-
-GeocoderControl.defaultProps = {
-	marker: true,
-	onLoading: noop,
-	onResults: noop,
-	onResult: noop,
-	onError: noop,
-};

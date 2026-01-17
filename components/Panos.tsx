@@ -1,10 +1,10 @@
-import React from "react";
-import Script from "next/script";
+"use client";
+import { useEffect } from "react";
 
 type Props = {};
 
 const Panos = (props: Props) => {
-	const runPano = () => {
+	useEffect(() => {
 		// @ts-ignore
 		window.embedpano({
 			xml: null,
@@ -14,7 +14,7 @@ const Panos = (props: Props) => {
 			passQueryParameters: "startscene,startlookat",
 			onready: krpanoReady,
 		});
-	};
+	}, []);
 
 	const krpanoReady = (krpano: any) => {
 		// @ts-ignore
@@ -22,7 +22,7 @@ const Panos = (props: Props) => {
 		loadPano();
 	};
 
-	return <Script src="/tour.js" onReady={runPano}></Script>;
+	return null;
 };
 const loadPano = (id: number = 1) => {
 	const xml = `

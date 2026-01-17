@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+
+import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { useAppStore } from "../stores";
 import { useMap } from "react-map-gl/mapbox";
 type Props = {};
 
 const Switcher = (props: Props) => {
-	const [mainPano, switchView] = useAppStore((state) => [
-		state.mainPano,
-		state.switchView,
-	]);
+	const {mainPano, switchView} = useAppStore();
 	const { mapBox } = useMap();
 	const handleSwitch = () => {
 		switchView();

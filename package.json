@@ -1,28 +1,32 @@
 {
-	"name": "street-view",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint"
-	},
-	"dependencies": {
-		"@mapbox/mapbox-gl-geocoder": "^5.0.3",
-		"@types/mapbox-gl": "^3.4.1",
-		"@types/mapbox__mapbox-gl-geocoder": "^5.0.0",
-		"@types/node": "18.11.9",
-		"@types/react": "18.0.25",
-		"@types/react-dom": "18.0.9",
-		"eslint": "8.28.0",
-		"eslint-config-next": "13.0.5",
-		"mapbox-gl": "^3.10.0",
-		"next": "13.0.5",
-		"react": "18.2.0",
-		"react-dom": "18.2.0",
-		"react-map-gl": "^8.0.1",
-		"typescript": "4.9.3",
-		"zustand": "^4.1.4"
-	}
+  "name": "street-view",
+  "version": "1.1.0",
+  "description": "This is a basic demo of Street View application. Built with Next.js, using MapBox as the map and KRpano as the 360 view.",
+  "author": "Eric Chen",
+  "private": false,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^5.1.2",
+    "@types/mapbox__mapbox-gl-geocoder": "^5.1.0",
+    "@types/node": "^25.0.3",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "mapbox-gl": "^3.17.0",
+    "next": "16.1.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-map-gl": "^8.1.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@types/mapbox-gl": "^3.4.1",
+    "typescript": "^5.9.3"
+  }
 }
