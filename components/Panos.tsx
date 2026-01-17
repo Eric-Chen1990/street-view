@@ -5,15 +5,16 @@ type Props = {};
 
 const Panos = (props: Props) => {
 	useEffect(() => {
-		// @ts-ignore
-		window.embedpano({
-			xml: null,
-			target: "pano",
-			html5: "only",
-			mobilescale: 1.0,
-			passQueryParameters: "startscene,startlookat",
-			onready: krpanoReady,
-		});
+		if(typeof (window as any).embedpano === 'function') {
+			(window as any).embedpano({
+				xml: null,
+				target: "pano",
+				html5: "only",
+				mobilescale: 1.0,
+				passQueryParameters: "startscene,startlookat",
+				onready: krpanoReady,
+			});
+		}
 	}, []);
 
 	const krpanoReady = (krpano: any) => {
